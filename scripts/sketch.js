@@ -14,10 +14,10 @@ window.$fxhashFeatures = {
 
 function setup() {
   counter = 0
-  //canWidth =min(windowWidth -100,windowHeight-50)
-//  canHeight = canWidth
-canWidth =4000
-canHeight = 4000
+  canWidth =min(windowWidth -100,windowHeight-50)
+canHeight = canWidth
+//canWidth =4000
+//canHeight = 4000
   createCanvas(canWidth,canHeight)
   angleMode(DEGREES)
   workingImage = createImage(canWidth,canHeight)
