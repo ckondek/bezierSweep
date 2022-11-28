@@ -23,6 +23,7 @@ function fillPerlinNoise(noiseLevel){
   let value2;
   let value3;
   noiseSeed(fxrand() * 9999999)
+  
   for (index = 0; index < workingImage.pixels.length; index+=4){
     value1 = noise( (XYfromIndex(index)[0] / (noiseLevel * 4)), (XYfromIndex(index)[1] / noiseLevel)) * 20 - 10
     value1 = 1 /(1 + Math.exp(- value1))
