@@ -2,8 +2,10 @@ let canWidth;
 let canHeight;
 let workingImage;
 let vectors = []
-let noiseLevel = getNoiseLevel()
-let dispersal = getDispersalLength()
+//let noiseLevel = getNoiseLevel()
+//let dispersal = getDispersalLength()
+let noiseLevel = 700
+let dispersal = 100
 let counter;
 let iterations
 
@@ -13,11 +15,12 @@ window.$fxhashFeatures = {
 }
 
 function setup() {
+  pixelDensity(1);
   counter = 0
-  canWidth =min(windowWidth -100,windowHeight-50)
-canHeight = canWidth
-//canWidth =4000
-//canHeight = 4000
+  //canWidth =min(windowWidth -100,windowHeight-50)
+//canHeight = canWidth
+canWidth =4000
+canHeight = 4000
   createCanvas(canWidth,canHeight)
   angleMode(DEGREES)
   workingImage = createImage(canWidth,canHeight)
@@ -26,7 +29,7 @@ canHeight = canWidth
   workingImage.updatePixels()
   vectors = getVectorFromImageColor()
   if (window.$fxhashFeatures.noiseLevel == 700 && window.$fxhashFeatures.dispersal == 100){
-    iterations = 2;
+    iterations = 3;
   }else {
     iterations = 1
   }
