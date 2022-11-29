@@ -2,25 +2,21 @@ let canWidth;
 let canHeight;
 let workingImage;
 let vectors = []
-//let noiseLevel = getNoiseLevel()
-//let dispersal = getDispersalLength()
-let noiseLevel = 700
-let dispersal = 100
+let noiseLevel = getNoiseLevel()
+let dispersal = getDispersalLength()
 let counter;
-let iterations
-
+let iterations;
+let seed = fxrand() * 9999999
 window.$fxhashFeatures = {
   "noiseLevel" : noiseLevel,
   "dispersal" : dispersal
 }
-
 function setup() {
   pixelDensity(1);
+  noiseSeed(seed)
   counter = 0
-  //canWidth =min(windowWidth -100,windowHeight-50)
-//canHeight = canWidth
-canWidth =4000
-canHeight = 4000
+  canHeight =min(windowWidth,windowHeight)
+  canWidth = canHeight
   createCanvas(canWidth,canHeight)
   angleMode(DEGREES)
   workingImage = createImage(canWidth,canHeight)
@@ -45,11 +41,9 @@ function draw(){
       swapPixels(index, wrapIndex(index + swapIndex, workingImage.pixels.length))
     }
     workingImage.updatePixels()
-
   }
   image(workingImage,0,0)
   counter +=1
-
 }
 function keyTyped(){
   if (key === 's') {
