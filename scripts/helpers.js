@@ -1,105 +1,76 @@
-function swapPixels(i,j){
 
-  let c0 = workingImage.pixels[i];
-  let c1 = workingImage.pixels[i+1];
-  let c2 = workingImage.pixels[i+2];
 
-  workingImage.pixels[i] = workingImage.pixels[j]
-  workingImage.pixels[i+1] = workingImage.pixels[j+1]
-  workingImage.pixels[i+2] = workingImage.pixels[j+2]
 
-  workingImage.pixels[j] = c0
-  workingImage.pixels[j+1] = c1
-  workingImage.pixels[j+2] = c2
+function mode(name,pallet,weightRange,alphaRange, alphaFloor){
+  this.name = name;
+  this.pallet = pallet;
+  this.weightRange = weightRange;
+  this.alphaRange = alphaRange;
+  this.alphaFloor = alphaFloor;
+  this.alpha = function(){
+                            return fxrand() * this.alphaRange  + this.alphaFloor
+                          }
+  this.weight = function(){
+                              return fxrand() * this.weightRange
+                            }
 }
-function indexFromXY (x,y){
-  let index = (x * 4) + (y * workingImage.width * 4)
 
-  return index
+
+
+function makeBezier(points){
+    noFill();
+    beginShape();
+      vertex(points[0],points[1])
+      vertex(points[2], points[3]);
+      quadraticVertex(points[4], points[5], points[6], points[7]);
+      quadraticVertex(points[8], points[9], points[10], points[11]);
+      quadraticVertex(points[12], points[13], points[14], points[15]);
+      quadraticVertex(points[16], points[17], points[18], points[19]);
+      vertex(points[20], points[21]);
+    endShape();
 }
-function fillPerlinNoise(noiseLevel){
 
-  let value1;
-  let value2;
-  let value3;
-  
+function showPoints(points){
+  fill(255,0,0)
+  ellipse(points[0],points[1],5,5)
+  ellipse(points[2],points[3],5,5)
+  ellipse(points[6],points[7],5,5)
+  ellipse(points[10],points[11],5,5)
+  ellipse(points[14],points[15],5,5)
+  ellipse(points[18],points[19],5,5)
+  ellipse(points[20],points[21],5,5)
 
-  for (index = 0; index < workingImage.pixels.length; index+=4){
-    value1 = noise( (XYfromIndex(index)[0] / (noiseLevel * 4)), (XYfromIndex(index)[1] / noiseLevel)) * 20 - 10
-    value1 = 1 /(1 + Math.exp(- value1))
-    value1 = map(value1,0,1,0,255)
+  fill(255,255,0)
+  ellipse(points[4],points[5],5,5)
+  ellipse(points[8],points[9],5,5)
+  ellipse(points[12],points[13],5,5)
+  ellipse(points[16],points[17],5,5)
 
-    value2 = noise( (XYfromIndex(index)[0] / (noiseLevel * 4) + 100),(XYfromIndex(index)[1] / noiseLevel) +100) * 20 - 10
-    value2 = 1 /(1 + Math.exp(- value2))
-    value2 = map(value2,0,1,0,255)
 
-    value3 = noise( (XYfromIndex(index)[0] / (noiseLevel * 4) + 234),(XYfromIndex(index)[1] / noiseLevel) +234) * 20 - 10
-    value3 = 1 /(1 + Math.exp(- value3))
-    value3 = map(value3,0,1,0,255 )
 
-    workingImage.pixels[index] = value1;
-    workingImage.pixels[index + 1] = value2;
-    workingImage.pixels[index + 2] = value3;
-    workingImage.pixels[index + 3] = 255;
-  }
 }
-function getVectorFromImageColor(){
-  let vectorArray = [];
-  let direction
-  let value
-  for (index = 0; index < workingImage.pixels.length; index+=4){
-    direction = createVector(window.$fxhashFeatures.dispersal,0);
-    let r = workingImage.pixels[index]
-    let g = workingImage.pixels[index + 1]
-    let b = workingImage.pixels[index + 2]
-    let brightness = (r + r+ b + g + g + g)/6    //get brighness value following formula.(R+R+B+G+G+G)/6
-    let rotation = map(brightness,0,255,0,360)
-    direction.setHeading(rotation)
-    vectorArray.push(direction)
 
-  }
-  return vectorArray
+function rp(center,range){
+  return center + (fxrand() * range - range/2)
 }
-function XYfromIndex (index){
-  let x;
-  let y;
 
-  x = index % (workingImage.width * 4)
-  y = Math.floor(index / (workingImage.width * 4))
+function updatePoints(points){
+  //control points
+  points[4] += fxrand() * 32 - 16
+  points[5] += fxrand() * 16 - 8
+  points[8] += fxrand() * 32 - 16
+  points[9] += fxrand() * 16 - 8
+  points[12] += fxrand() * 32 - 16
+  points[13] += fxrand() * 16 - 8
+  points[13] += fxrand() * 16 - 8
+  points[16] += fxrand() * 16- 8
+  points[17] += fxrand() * 32 - 16
 
-  return [x,y]
-}
-function wrapIndex(num,length){
-  if(num < 0){
-    num = length - num
-  } else if (num > length - 1) {
-    num = num - length
-  } else {
+  //vertices
+    points[2] += fxrand() * 8 - 4
+  points[11] += fxrand() * 6 - 3
+  points[15] += fxrand() * 6 - 3
+  points[19] += fxrand() * 2 - 1
+    points[14] += fxrand() * 8 - 4
 
-  }
-  return num
-}
-function getNoiseLevel(){
-  let level;
-  let t = fxrand() * 100
-  if (t < 30){
-    level = 700
-  }else if (t < 80){
-    level = 300
-  }else {
-    level = 150
-  }
-  return level
-}
-function getDispersalLength(){
-  let level;
-  let t = fxrand() * 100
-  if (t < 30){
-    level = 100
-  }else if (t < 80){
-    level = 300
-  }else {
-    level = 700
-  }
-  return level
 }
