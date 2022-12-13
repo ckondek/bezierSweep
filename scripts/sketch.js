@@ -3,25 +3,61 @@ let canvasHeight;
 let canvasWidth;
 
 //initialize pallets
-//'#F0F4EE'
-let pallets = [
-                ['#D78F43','#2D3950'],
-                ['#ffffff','#900E10','#000000'],
-                ['#ffbe00','#2e7d32','#8c1c03','#d95100','#d95100'],
+let pallets = [ ['#D78F43','#2D3950','#2D3950'],
+                ['#B40C04','#B40C04','#CD6F1A','#DCA91A','#33663f','#0E4A5B'],
+                ['#ffbe00','#2e7d32','#8c1c03','#d95100','#d95100','#11725f'],
                 ['#D5D8DD','#5CA2BE','#135487','#135487','#1c3ffd','#febc33'],
-                ['#4D493A','#918773','#918773','#420A1A','#420A1A','#4D493A','#a0183f'],
-                ['#423E50','#49445C','#3C2C75','#280C8B','#2A0B95']
+                ['#760010','#420A1A','#A9192d','#a0183f','#c83e66','#be3b72','#7c4000','#A9192d'],
+                ['#423E50','#49445C','#3C2C75','#280C8B','#2A0B95'],
+                ['#332B2B','#4c6868','#9dcbe','#FAF9F5','#FAF9F5','#C0342E','#C0342E'],
+                ['#A10F59','#42A910','#A0BD12','#5D002F','#206200','#5B6D00','#480F2C','# A10F59','#5D002F','#480F2C'],
+                ['#CDCDCD','#A5A5A3','#8D8C7E','#5A565F','#8A8A8A']
 
-              ]
+]
 //initalize modes
 let modes = [];
-modes.push(new mode('smoke trails',pallets[2],3,60,60))
-modes.push(new mode('ice blue',pallets[4],14,60,40))
-modes.push(new mode('soft neon blue',pallets[5],44,60,60))
-let index = 0
+modes.push(new mode('moonlight',pallets[0],33,60,40))     //0
+modes.push(new mode('neo-rainbow',pallets[1],33,60,60))//1
+modes.push(new mode('old berlin',pallets[2],14,60,30))//2
+modes.push(new mode('blue lemon ice',pallets[3],44,60,60))//3
+modes.push(new mode('lipstick',pallets[4],44,20,70))//4
+modes.push(new mode('deep neon',pallets[5],44,60,60))//5
+modes.push(new mode('grafitti',pallets[6],84,80,20))//6
+modes.push(new mode('olives and grapes',pallets[7],40,80,20))//7
+modes.push(new mode('smoke tails',pallets[8],40,20,30))//8
+
+let a = fxrand()
+let index;
+
+if ( a < 0.12){
+  index = 5;
+}else if (a < 0.27){
+  index = 3
+}else if (a < 0.4){
+  index = 7
+}else if (a < 0.55){
+  index = 1
+}else if (a < 0.65){
+  index = 0;
+}else if (a < 0.73){
+  index = 8
+}else if (a < 0.88){
+  index = 2
+}else if (a < 0.95){
+  index = 6
+}else{
+  index = 4
+}
+
+window.$fxhashFeatures = {
+  "pallet" : modes[index].name
+
+}
+
+
+
 
 //initialize modes
-
 function setup(){
 
   pixelDensity(1);
@@ -86,9 +122,13 @@ function draw(){
     //showPoints(points)
     pop()
     fill(modes[index].pallet[1])
-    textSize(18)
-    text(modes[index].name,20,40)
-    xpos = xpos + offset
+    //textSize(18)
+    //text(modes[index].name,20,40)
+
+      xpos = xpos + offset
+
+
+
     noiseOffset += 0.6
     updatePoints(points)
 

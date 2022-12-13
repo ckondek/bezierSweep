@@ -8,11 +8,12 @@ function mode(name,pallet,weightRange,alphaRange, alphaFloor){
   this.alphaRange = alphaRange;
   this.alphaFloor = alphaFloor;
   this.alpha = function(){
-                            return fxrand() * this.alphaRange  + this.alphaFloor
+                            return fxrand() * this.alphaRange  + this.alphaFloor;
                           }
   this.weight = function(){
-                              return fxrand() * this.weightRange
+                              return fxrand() * this.weightRange;
                             }
+
 }
 
 
