@@ -1,6 +1,7 @@
 let points = [];
 let canvasHeight;
 let canvasWidth;
+let counter;
 
 //initialize pallets
 let pallets = [ ['#D78F43','#2D3950','#2D3950'],
@@ -11,7 +12,9 @@ let pallets = [ ['#D78F43','#2D3950','#2D3950'],
                 ['#423E50','#49445C','#3C2C75','#280C8B','#2A0B95'],
                 ['#332B2B','#4c6868','#9dcbe','#FAF9F5','#FAF9F5','#C0342E','#C0342E'],
                 ['#A10F59','#42A910','#A0BD12','#5D002F','#206200','#5B6D00','#480F2C','# A10F59','#5D002F','#480F2C'],
-                ['#CDCDCD','#A5A5A3','#8D8C7E','#5A565F','#8A8A8A']
+                ['#CDCDCD','#A5A5A3','#8D8C7E','#5A565F','#8A8A8A'],
+                ['#59002C','#A10000','#BC8B25','#77395B','#007D99','#B0CA97','#C8CAE6'],
+                ['#1C1E93','#334900','#009300','#7BB04E','#680812','#E1D500','#5580D7']
 
 ]
 //initalize modes
@@ -25,29 +28,35 @@ modes.push(new mode('deep neon',pallets[5],44,60,60))//5
 modes.push(new mode('grafitti',pallets[6],84,80,20))//6
 modes.push(new mode('olives and grapes',pallets[7],40,80,20))//7
 modes.push(new mode('smoke tails',pallets[8],40,20,30))//8
+modes.push(new mode('sophisticated',pallets[9],40,20,30))//9
+modes.push(new mode('tapenade',pallets[10],60,40,60))//10
 
 let a = fxrand()
 let index;
 
-if ( a < 0.12){
+if ( a < 0.08){
   index = 5;
-}else if (a < 0.27){
+}else if (a < 0.17){
   index = 3
-}else if (a < 0.4){
+}else if (a < 0.24){
   index = 7
-}else if (a < 0.55){
+}else if (a < 0.35){
   index = 1
-}else if (a < 0.65){
+}else if (a < 0.45){
   index = 0;
-}else if (a < 0.73){
+}else if (a < 0.53){
   index = 8
-}else if (a < 0.88){
+}else if (a < 0.63){
   index = 2
-}else if (a < 0.95){
+}else if (a < 0.70){
   index = 6
+}else if (a < 0.85){
+  index = 10
 }else{
-  index = 4
+  index = 9
 }
+
+
 
 window.$fxhashFeatures = {
   "pallet" : modes[index].name
@@ -67,6 +76,7 @@ function setup(){
   createCanvas(canvasWidth,canvasHeight)
   console.log("canvas size("+canvasWidth.toString()+','+canvasHeight.toString()+")")
   strokeCap(SQUARE);
+  counter = 0
 
 
 
@@ -85,10 +95,11 @@ function setup(){
   points.push(rp(startX,350)); points.push(rp(canvasHeight - 200,40)); points.push(rp(startX,100)); points.push(rp(canvasHeight - 200,40));
   points.push(endX); points.push(endY);
 
-noLoop()
+//noLoop()
 }
 
 function draw(){
+
   background(0)
   let xpos = 200.0
   let noiseOffset = 0.01
@@ -133,5 +144,11 @@ function draw(){
     updatePoints(points)
 
   }
+  counter++
+  if (counter == 2){
+      fxpreview()
+      noLoop()
+    }
+
 
 }
